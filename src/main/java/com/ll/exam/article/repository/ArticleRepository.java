@@ -74,4 +74,24 @@ public class ArticleRepository {
 
         sql.update();
     }
+
+    public ArticleDto getBeforePost(int id) {
+        SecSql sql = myMap.genSecSql();
+        sql
+                .append("SELECT *")
+                .append("FROM article")
+                .append("WHERE id = ?",(id-1));
+
+        return sql.selectRow(ArticleDto.class);
+    }
+
+    public ArticleDto getPrePost(int id) {
+        SecSql sql = myMap.genSecSql();
+        sql
+                .append("SELECT *")
+                .append("FROM article")
+                .append("WHERE id = ?",(id+1));
+
+        return sql.selectRow(ArticleDto.class);
+    }
 }
