@@ -40,4 +40,16 @@ public class ArticleRepository {
 
         return sql.selectLong();
     }
+
+    public long write(String title, String content, boolean isBlind) {
+        SecSql sql = myMap.genSecSql();
+        sql
+                .append("INSERT INTO article")
+                .append("Set title = ?,", title)
+                .append("body = ?,", content)
+                .append("createdDate = NOW(),")
+                .append("modifiedDate = NOW(),")
+                .append("isBlind = ?",isBlind);
+        return sql.insert();
+    }
 }
