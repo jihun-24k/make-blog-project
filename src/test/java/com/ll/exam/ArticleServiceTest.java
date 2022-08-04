@@ -3,9 +3,14 @@ package com.ll.exam;
 import com.ll.exam.article.dto.ArticleDto;
 import com.ll.exam.article.service.ArticleService;
 import com.ll.exam.mymap.MyMap;
+import com.ll.exam.util.Util;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
 
+import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.stream.IntStream;
 
@@ -101,6 +106,8 @@ public class ArticleServiceTest {
 
     @Test
     public void modify() {
+        Util.sleep(5000);
+
         ArticleService articleService = Container.getObj(ArticleService.class);
 
         articleService.modify(1, "제목 new", "내용 new", true);
@@ -110,8 +117,12 @@ public class ArticleServiceTest {
         assertThat(articleDto.getId()).isEqualTo(1);
         assertThat(articleDto.getTitle()).isEqualTo("제목 new");
         assertThat(articleDto.getBody()).isEqualTo("내용 new");
-        assertThat(articleDto.getCreatedDate()).isNotNull();
-        assertThat(articleDto.getModifiedDate()).isNotNull();
         assertThat(articleDto.isBlind()).isEqualTo(true);
+
+        // DB에서 받아온 게시물 수정날짜와 자바에서 계산한 현재 날짜를 비교하여(초단위)
+        // 그것이 1초 이하로 차이가 난다면
+        // 수정날짜가 갱신되었다 라고 볼 수 있음
+        long diffSeconds = ChronoUnit.SECONDS.between(articleDto.getModifiedDate(), LocalDateTime.now());
+        assertThat(diffSeconds).isLessThanOrEqualTo(1L);
     }
 }

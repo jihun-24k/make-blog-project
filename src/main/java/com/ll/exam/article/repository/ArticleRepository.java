@@ -52,4 +52,17 @@ public class ArticleRepository {
                 .append("isBlind = ?",isBlind);
         return sql.insert();
     }
+
+    public void modify(int id, String title, String content, boolean isBlind){
+        SecSql sql = myMap.genSecSql();
+        sql
+                .append("UPDATE article")
+                .append("SET modifiedDate = NOW()")
+                .append(", title = ?", title)
+                .append(", body = ?", content)
+                .append(", isBlind = ?", isBlind)
+                .append("WHERE id = ?", id);
+
+        sql.update();
+    }
 }

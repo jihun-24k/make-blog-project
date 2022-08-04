@@ -27,4 +27,8 @@ public class ArticleService {
     public long write(String title, String content, boolean isBlind) {
         return articleRepository.write(title,content,isBlind);
     }
+
+    public void modify(int id, String title, String content, boolean isBlind) {
+        articleRepository.modify(id, title, content, isBlind);
+    }
 }
