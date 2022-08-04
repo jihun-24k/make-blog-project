@@ -2,13 +2,52 @@ package com.ll.exam;
 
 import com.ll.exam.article.dto.ArticleDto;
 import com.ll.exam.article.service.ArticleService;
+import com.ll.exam.mymap.MyMap;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
+import java.util.stream.IntStream;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class ArticleServiceTest {
+
+    @BeforeEach
+    public void beforeEach() {
+        // 게시물 테이블을 깔끔하게 삭제한다.
+        // DELETE FROM article; // 보다 TRUNCATE article; 로 삭제하는게 더 깔끔하고 흔적이 남지 않는다.
+        truncateArticleTable();
+        // 게시물 3개를 만든다.
+        // 테스트에 필요한 샘플데이터를 만든다고 보면 된다.
+        makeArticleTestData();
+    }
+
+    private void makeArticleTestData() {
+        MyMap myMap = Container.getObj(MyMap.class);
+
+        IntStream.rangeClosed(1, 3).forEach(no -> {
+            boolean isBlind = false;
+            String title = "제목%d".formatted(no);
+            String body = "내용%d".formatted(no);
+
+            myMap.run("""
+                     INSERT INTO article
+                     SET createdDate = NOW(),
+                     modifiedDate = NOW(),
+                     title = ?,
+                     `body` = ?,
+                     isBlind = ?
+                     """, title, body, isBlind);
+        });
+    }
+
+    private void truncateArticleTable() {
+        MyMap myMap = Container.getObj(MyMap.class);
+        // 테이블을 깔끔하게 지워준다.
+        myMap.run("TRUNCATE article");
+    }
+
     @Test
     public void serviceExitsTest() {
         ArticleService articleService = Container.getObj(ArticleService.class);
