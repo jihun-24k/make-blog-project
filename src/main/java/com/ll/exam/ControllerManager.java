@@ -59,9 +59,6 @@ public class ControllerManager {
 
         String mappingKey = routeMethod + "___" + actionPath;
 
-        System.out.println(mappingKey);
-        System.out.println(routeInfos.keySet());
-
         boolean contains = routeInfos.containsKey(mappingKey);
 
         if (contains == false) {
