@@ -145,4 +145,32 @@ public class ArticleServiceTest {
 
         assertThat(articleDto).isNull();
     }
+
+    @Test
+    public void beforePost(){
+        ArticleService articleService = Container.getObj(ArticleService.class);
+
+        ArticleDto articleDto = articleService.getBeforePost(2);
+
+        assertThat(articleDto.getId()).isEqualTo(1L);
+        assertThat(articleDto.getTitle()).isEqualTo("제목1");
+        assertThat(articleDto.getBody()).isEqualTo("내용1");
+        assertThat(articleDto.getCreatedDate()).isNotNull();
+        assertThat(articleDto.getModifiedDate()).isNotNull();
+        assertThat(articleDto.isBlind()).isFalse();
+    }
+
+    @Test
+    public void prePost(){
+        ArticleService articleService = Container.getObj(ArticleService.class);
+
+        ArticleDto articleDto = articleService.getPrePost(2);
+
+        assertThat(articleDto.getId()).isEqualTo(3L);
+        assertThat(articleDto.getTitle()).isEqualTo("제목3");
+        assertThat(articleDto.getBody()).isEqualTo("내용3");
+        assertThat(articleDto.getCreatedDate()).isNotNull();
+        assertThat(articleDto.getModifiedDate()).isNotNull();
+        assertThat(articleDto.isBlind()).isFalse();
+    }
 }
