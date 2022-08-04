@@ -141,8 +141,8 @@ public class ArticleServiceTest {
     }
 
     @Test
-    public void beforePost(){
-        ArticleDto articleDto = articleService.getBeforePost(2);
+    public void preArticle(){
+        ArticleDto articleDto = articleService.getPreArticle(2);
 
         assertThat(articleDto.getId()).isEqualTo(1L);
         assertThat(articleDto.getTitle()).isEqualTo("제목1");
@@ -153,8 +153,8 @@ public class ArticleServiceTest {
     }
 
     @Test
-    public void prePost(){
-        ArticleDto articleDto = articleService.getPrePost(2);
+    public void nextArticle(){
+        ArticleDto articleDto = articleService.getNextArticle(2);
 
         assertThat(articleDto.getId()).isEqualTo(3L);
         assertThat(articleDto.getTitle()).isEqualTo("제목3");
