@@ -16,7 +16,16 @@ import java.util.stream.IntStream;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public class ArticleServiceTest {
+    // @BeforeAll 붙인 아래 메서드는
+    @BeforeAll
+    public void BeforeAll() {
+        MyMap myMap = Container.getObj(MyMap.class);
+
+        // 모든 DB 처리시에, 처리되는 SQL을 콘솔에 출력
+        myMap.setDevMode(true);
+    }
 
     @BeforeEach
     public void beforeEach() {
@@ -106,7 +115,7 @@ public class ArticleServiceTest {
 
     @Test
     public void modify() {
-        Util.sleep(5000);
+        //Util.sleep(5000);
 
         ArticleService articleService = Container.getObj(ArticleService.class);
 
