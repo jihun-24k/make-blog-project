@@ -2,6 +2,7 @@ package com.ll.exam;
 
 import com.ll.exam.annotation.Controller;
 import com.ll.exam.annotation.GetMapping;
+import com.ll.exam.annotation.PostMapping;
 import com.ll.exam.mymap.MyMap;
 import com.ll.exam.util.Util;
 import jakarta.servlet.http.HttpServletRequest;
@@ -29,6 +30,7 @@ public class ControllerManager {
 
             for (Method method : methods) {
                 GetMapping getMapping = method.getAnnotation(GetMapping.class);
+                PostMapping postMapping = method.getAnnotation(PostMapping.class);
 
                 String httpMethod = null;
                 String path = null;
@@ -36,6 +38,10 @@ public class ControllerManager {
                 if (getMapping != null) {
                     path = getMapping.value();
                     httpMethod = "GET";
+                }
+                if (postMapping != null){
+                    path = postMapping.value();
+                    httpMethod = "POST";
                 }
 
                 if (path != null && httpMethod != null) {
@@ -58,7 +64,6 @@ public class ControllerManager {
         String mappingKey = routeMethod + "___" + actionPath;
 
         boolean contains = routeInfos.containsKey(mappingKey);
-
         if (contains == false) {
             rq.println("해당 요청은 존재하지 않습니다.");
             return;
