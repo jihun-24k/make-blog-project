@@ -84,4 +84,44 @@ public class ArticleController {
         articleService.delete(id);
         rq.replace("/usr/article/list", "%d번 게시물이 삭제 되었습니다.".formatted(id));
     }
+    @GetMapping("/usr/article/modify/{id}")
+    public void showModify(Rq rq) {
+        long id = rq.getLongParam("id", 0);
+
+        if (id == 0) {
+            rq.historyBack("번호를 입력해주세요.");
+            return;
+        }
+
+        ArticleDto articleDto = articleService.getArticleById(id);
+
+        if (articleDto == null) {
+            rq.historyBack("해당 글이 존재하지 않습니다.");
+            return;
+        }
+
+        rq.setAttr("article", articleDto);
+        rq.view("usr/article/modify");
+    }
+
+    @PutMapping("/usr/article/modify/{id}")
+    public void modify(Rq rq){
+        String title = rq.getParam("title", "");
+        String body = rq.getParam("body", "");
+        long id = rq.getLongParam("id",0);
+
+        if (title.length() == 0) {
+            rq.historyBack("수정할 제목을 입력해주세요.");
+            return;
+        }
+
+        if (body.length() == 0) {
+            rq.historyBack("수정할 내용을 입력해주세요.");
+            return;
+        }
+
+        articleService.modify(id,title, body,false);
+
+        rq.replace("/usr/article/detail/%d".formatted(id), "%d번 게시물이 수정 되었습니다.".formatted(id));
+    }
 }

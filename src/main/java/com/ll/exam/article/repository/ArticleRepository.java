@@ -53,7 +53,7 @@ public class ArticleRepository {
         return sql.insert();
     }
 
-    public void modify(int id, String title, String content, boolean isBlind){
+    public void modify(long id, String title, String content, boolean isBlind){
         SecSql sql = myMap.genSecSql();
         sql
                 .append("UPDATE article")
