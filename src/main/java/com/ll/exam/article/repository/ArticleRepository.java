@@ -87,7 +87,7 @@ public class ArticleRepository {
         return sql.selectRow(ArticleDto.class);
     }
 
-    public ArticleDto getNextArticle(int id) {
+    public ArticleDto getNextArticle(long id) {
         SecSql sql = myMap.genSecSql();
         sql
                 .append("SELECT *")

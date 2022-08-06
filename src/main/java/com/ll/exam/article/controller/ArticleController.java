@@ -62,6 +62,11 @@ public class ArticleController {
             return;
         }
 
+        ArticleDto preArticle = articleService.getPreArticle(id);
+        ArticleDto nextArticle = articleService.getNextArticle(id);
+
+        rq.setAttr("prevArticle", preArticle);
+        rq.setAttr("nextArticle", nextArticle);
         rq.setAttr("article", articleDto);
         rq.view("usr/article/detail");
     }
@@ -99,7 +104,11 @@ public class ArticleController {
             rq.historyBack("해당 글이 존재하지 않습니다.");
             return;
         }
+        String articleBody = articleDto.getBody();
+        // 토스트UI 에디터 특성상 script를 t-script 로 치환해야 함
+        // 나중에 처리
 
+        rq.setAttr("articleBody", articleBody);
         rq.setAttr("article", articleDto);
         rq.view("usr/article/modify");
     }

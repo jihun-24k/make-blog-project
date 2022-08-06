@@ -40,11 +40,11 @@ public class ArticleService {
         articleRepository.delete(id);
     }
 
-    public ArticleDto getPreArticle(int id) {
+    public ArticleDto getPreArticle(long id) {
         return articleRepository.getPrevArticle(id);
     }
 
-    public ArticleDto getNextArticle(int id) {
+    public ArticleDto getNextArticle(long id) {
         return articleRepository.getNextArticle(id);
     }
 }
